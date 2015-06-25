@@ -1,0 +1,24 @@
+{
+  "name": "qrauth-client",
+  "version": "1.0.0",
+  "description": "qrauth client-side library implementation",
+  "main": "qrauth-1.0.0.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hwclass/qrauth-client.git"
+  },
+  "keywords": [
+    "qrauth",
+    "client-side",
+    "library"
+  ],
+  "author": "hwclass",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hwclass/qrauth-client/issues"
+  },
+  "homepage": "https://github.com/hwclass/qrauth-client"
+}
