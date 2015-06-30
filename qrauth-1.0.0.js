@@ -6,14 +6,14 @@
  /**
   * qrauth : main library wrapper
   *
-  * @param <Function> IIFE
+  * @param {Function} IIFE
   */
 var qrauth = (function () {
 
   /**
   * Query is the model for queries
-  * @param <String> appId
-  * @param <String> appSecret
+  * @param {String} appId
+  * @param {String} appSecret
   */
   var Query = (function () {
 
@@ -77,8 +77,7 @@ var qrauth = (function () {
   /**
   * init() is a library initialization method
   *
-  * @param <Object> options
-  * @param <Function> callback
+  * @param {Object} options
   */
   var init = function (options) {
 
@@ -86,11 +85,17 @@ var qrauth = (function () {
         qrcode = null;
 
     utils.getScript(config.urls.socketIO, function () {
+      
       socket = io(config.urls.auth);
+      
       socket.on('connect', function(){
+        
         socket.on('join', function (data) {
+          
           utils.getScript(config.urls.qrCode, function () {
+            
             var query = new Query(options.appId, options.appSecret);
+            
             utils.ajax(config.urls.auth, 'GET', query, 'json', 'application/json', function () {}, function (result) {
               if (!result.success) {          
                   console.log(config.messages.error.default);
@@ -112,15 +117,21 @@ var qrauth = (function () {
             }, function (e) {
               console.log(e);
             });
+
           });
+
         });
+
         socket.on('redirect', function (data) {
           window.location.href = data;
         });
+
         socket.on('disconnect', function () {
           utils.clearCode(qrcode);
         });
+
       });
+
     });
 
   }
@@ -135,7 +146,14 @@ var qrauth = (function () {
       /**
       * ajax() is a method that makes XHR requests
       *
-      * @noparam
+      * @param {String} url
+      * @param {String} type
+      * @param {Object} data
+      * @param {String} dataType
+      * @param {Object} contentType
+      * @param {Function} beforeSend
+      * @param {Function} success
+      * @param {Function} error
       */
       ajax : function (url, type, data, dataType, contentType, beforeSend, success, error) {
         return $.ajax({
@@ -149,10 +167,12 @@ var qrauth = (function () {
           error: error
         });
       },
+
       /**
       * getScript() is a method that gets js file source into context within given url
       *
-      * @noparam
+      * @param {String} src
+      * @param {Function} success
       */
       getScript : function (src, success) {
         return $.ajax({
@@ -163,10 +183,11 @@ var qrauth = (function () {
           error: function (e) { console.dir(e); }
         }); 
       },
+
       /**
       * clear() is a method that clears the qrcode image
       *
-      * @noparam
+      * @param {String} qrcode
       */
       clearCode : function (qrcode) {
         qrcode.clear();
