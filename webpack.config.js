@@ -1,25 +1,27 @@
 var webpack = require('webpack');
+var path = require('path');
 
 module.exports = {
   entry: [
     'babel-polyfill',
-    './lib/qrauth-client.js'
+    './lib/index.js'
   ],
   module: {
     loaders: [{
-      test: /\.jsx?$/,
-      exclude: /node_modules/,
-      loader: 'react-hot!babel'
-    },{
-      test: require.resolve("./lib/qrauth-client"),
-      loader: "imports-loader?this=>window"
+      test: /\.js$/,
+      loader: 'babel',
+      include: path.resolve(__dirname, './lib'),
+      query: {
+        presets: ['es2015', 'stage-0'],
+        plugins: ['transform-runtime']
+      }
     }]
   },
   output: {
     path: __dirname + '/lib',
     publicPath: '/',
-    filename: 'qrauth-client.min.js',
-    library: ['qrauth']
+    filename: 'qrauth-client-1.1.1.min.js',
+    library: ['Qrauth']
   },
   devServer: {
     contentBase: './dist',
@@ -27,9 +29,6 @@ module.exports = {
     historyApiFallback: true
   },
   plugins: [
-    new webpack.ProvidePlugin({
-      'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
-    }),
     new webpack.DefinePlugin({
       'process.env': {
         'NODE_ENV': '"development"'
@@ -38,4 +37,3 @@ module.exports = {
   ],
   devtool: 'sourcemap'
 };
-
